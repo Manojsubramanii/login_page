@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-image: url("360_F_664546661_eCIBVtOEzTHOa5yKy2T4JBSfRfH2ftyl.jpg");
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      margin: 20px;
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 20px;
+      width: 150px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 20px;
+      margin: 12px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    a {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Popup Box */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .popup .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #ccc;
+    }
+
+    .popup .close-btn:hover {
+      color: #000;
+    }
+
+    .popup p {
+      margin: 15px 0;
+    }
+
+    .copy-btn {
+      background-color: #f1f1f1;
+      color: #4CAF50;
+      padding: 5px 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .copy-btn:hover {
+      background-color: #ddd;
+    }
+
+    /* Error Message */
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: 95%;
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .popup {
+        width: 95%;
+      }
+
+      .logo {
+        width: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="symposium_viit_cover.jpeg" alt="JOSTEL" class="logo">
+    <h2>TECHX ADMIN LOGIN</h2>
+    <form id="loginForm" onsubmit="return validateLogin()">
+      <label for="uname">Username:</label>
+      <input type="text" id="uname" name="uname" required>
+      <label for="psw">Password:</label>
+      <input type="password" id="psw" name="psw" required>
+      <button type="submit">Log In</button>
+      <p class="error" id="error-message"></p>
+    </form>
+    <p><a href="#" id="lost-password-link">Lost password?</a></p>
+  </div>
+
+  <!-- Popup Box -->
+  <div class="popup" id="popup-box">
+    <span class="close-btn" onclick="closePopup()">X</span>
+    <h3>Contact Support</h3>
+    <p><strong>Manoj:</strong></p>
+    <p id="manoj-number">8825863892</p>
+    <button class="copy-btn" id="copy-manoj" onclick="copyText('manoj-number', 'copy-manoj')">Copy</button>
+
+    <p><strong>Honey Joe:</strong></p>
+    <p id="honey-number">6382503265</p>
+    <button class="copy-btn" id="copy-honey" onclick="copyText('honey-number', 'copy-honey')">Copy</button>
+  </div>
+
+  <script>
+    // Show the popup when "Lost password?" is clicked
+    document.getElementById("lost-password-link").addEventListener("click", function(event) {
+      event.preventDefault();
+      document.getElementById("popup-box").style.display = "block";
+    });
+
+    // Function to close the popup
+    function closePopup() {
+      document.getElementById("popup-box").style.display = "none";
+    }
+
+    // Function to copy text to clipboard and change button text to "Copied" temporarily
+    function copyText(numberId, buttonId) {
+      var copyText = document.getElementById(numberId).textContent;
+      var textArea = document.createElement('textarea');
+      textArea.value = copyText;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+
+      var copyButton = document.getElementById(buttonId);
+      copyButton.textContent = "Copied";
+      setTimeout(function() {
+        copyButton.textContent = "Copy";
+      }, 1000);
+    }
+
+    // Function to validate login credentials and navigate to new page
+    function validateLogin() {
+      var username = document.getElementById("uname").value;
+      var password = document.getElementById("psw").value;
+      var errorMessage = document.getElementById("error-message");
+
+      if (username === "Techxadmin" && password === "techx@24") {
+        errorMessage.style.color = "green";
+        errorMessage.textContent = "Login successful!";
+        window.location.href = "desk.html";
+        return false;
+      } else {
+        errorMessage.style.color = "red";
+        errorMessage.textContent = "Invalid username or password.";
+        return false;
+      }
+    }
+  </script>
+</body>
+</html>
